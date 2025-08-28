@@ -195,4 +195,70 @@ And above all, a method is missing in the "RegistroLlegada" class that performs 
 
 3.Use a synchronization mechanism to ensure that only one thread accesses these critical regions at a time. Verify the results.
 
+In RegistroLlegadaClass:
+
+```java
+
+public synchronized int asignarPosicion(String galgo){
+		int ultimaPosionActual = ultimaPosicionAlcanzada;
+		 
+		if (ultimaPosicionAlcanzada == 1){
+			ganador = galgo;
+		}
+
+		ultimaPosicionAlcanzada ++;
+
+		return ultimaPosionActual;
+
+	}
+
+```
+
+In Galgo class:
+
+```java
+
+public void corra() throws InterruptedException {
+		while (paso < carril.size()) {			
+			Thread.sleep(100);
+			carril.setPasoOn(paso++);
+			carril.displayPasos(paso);
+			synchronized (MainCanodromo.lock) {
+            while (MainCanodromo.pausado) {
+                MainCanodromo.lock.wait(); 
+            }
+        }
+			if (paso == carril.size()) {
+				carril.finish();
+
+				int posicion = regl.asignarPosicion(this.getName());
+				System.out.println("El galgo " + this.getName() + " llegó en la posición " + posicion);
+			}
+		}
+	}
+```
+
 4.Implement the pause and resume functionality. With these, when 'Stop' is clicked, all greyhound threads should go to sleep, and when 'Continue' is clicked, they should wake up and continue the race. Design a solution that allows this to be done using the synchronization mechanisms with the Lock primitives provided by the language (wait and notifyAll).
+
+```java
+
+            can.setStopAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pausado = true;
+                System.out.println("Carrera pausada!");
+            }
+        });
+
+        can.setContinueAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                synchronized (lock) {
+                    pausado = false;
+                    lock.notifyAll();
+                }
+                System.out.println("Carrera reanudada!");
+            }
+        });
+
+```
