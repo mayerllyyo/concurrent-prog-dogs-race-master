@@ -15,7 +15,7 @@ public class RegistroLlegada {
 		int ultimaPosionActual = ultimaPosicionAlcanzada;
 		 
 		if (ultimaPosicionAlcanzada == 1){
-			ganador = galgo
+			ganador = galgo;
 		}
 
 		ultimaPosicionAlcanzada ++;

@@ -10,7 +10,6 @@ public class MainCanodromo {
     private static Canodromo can;
     private static RegistroLlegada reg = new RegistroLlegada();
 
-    // 🔑 objeto de sincronización compartido
     public static final Object lock = new Object();
     public static volatile boolean pausado = false;
 
@@ -19,7 +18,6 @@ public class MainCanodromo {
         galgos = new Galgo[can.getNumCarriles()];
         can.setVisible(true);
 
-        // Acción del botón start
         can.setStartAction(new ActionListener() {
     @Override
     public void actionPerformed(final ActionEvent e) {
@@ -31,7 +29,6 @@ public class MainCanodromo {
                     galgos[i].start();
                 }
 
-                // 🔑 Esperar a que todos los galgos terminen
                 for (int i = 0; i < can.getNumCarriles(); i++) {
                     try {
                         galgos[i].join();
@@ -40,7 +37,6 @@ public class MainCanodromo {
                     }
                 }
 
-                // 🔑 Ahora sí, ya está el ganador registrado
                 can.winnerDialog(reg.getGanador(),
                         reg.getUltimaPosicionAlcanzada() - 1);
                 System.out.println("El ganador fue: " + reg.getGanador());
@@ -50,16 +46,14 @@ public class MainCanodromo {
 });
 
 
-        // Acción del botón stop (pausa)
         can.setStopAction(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                pausado = true; // 🔑 los galgos detectan esto y se quedan en wait()
+                pausado = true;
                 System.out.println("Carrera pausada!");
             }
         });
 
-        // Acción del botón continue (reanuda)
         can.setContinueAction(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
