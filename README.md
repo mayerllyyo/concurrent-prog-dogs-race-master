@@ -75,7 +75,7 @@ a. The action of starting the race and displaying the results begins on line 38 
 
 b. The join() method of the Thread class can be used to synchronize the thread that starts the race with the completion of the greyhound threads.
 
-´´´java
+```java
 
 @Override
     public void actionPerformed(final ActionEvent e) {
@@ -102,7 +102,7 @@ b. The join() method of the Thread class can be used to synchronize the thread t
         }.start();
     }
 });
-´´´
+```
 
 2.Once the initial problem has been corrected, run the application several times and identify inconsistencies in the results by viewing the ranking displayed in the console (sometimes valid results may be output, but in other cases, these inconsistencies may occur). From this, identify the critical regions () of the program.
 
@@ -146,7 +146,7 @@ Here we detect inconsistency between the greyhounds because there are repeated p
 
 In adition We detected critical regions in the "corra()" method of the Galgo class.
 
-´´´java
+```java
 
 public void corra() throws InterruptedException {
 		while (paso < carril.size()) {			
@@ -166,13 +166,13 @@ public void corra() throws InterruptedException {
 			}
 		}
 	}
-´´´
+```
 
 However there are some critic regions in the action methods in "MainCanodromo" class
 There is no logic or synchronization to the actions
 
-´´´java
-can.setStopAction(
+```java
+		can.setStopAction(
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -189,7 +189,7 @@ can.setStopAction(
                     }
                 }
         );
-´´´
+```
 
 And above all, a method is missing in the "RegistroLlegada" class that performs the logic of the final position, granting the first greyhound position 1 and increasing it.
 
