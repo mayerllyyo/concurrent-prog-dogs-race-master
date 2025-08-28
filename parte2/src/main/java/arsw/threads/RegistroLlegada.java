@@ -7,7 +7,21 @@ public class RegistroLlegada {
 	private String ganador=null;
 	
 	public String getGanador() {
+
 		return ganador;
+	}
+
+	public synchronized int asignarPosicion(String galgo){
+		int ultimaPosionActual = ultimaPosicionAlcanzada;
+		 
+		if (ultimaPosicionAlcanzada == 1){
+			ganador = galgo
+		}
+
+		ultimaPosicionAlcanzada ++;
+
+		return ultimaPosionActual;
+
 	}
 
 	public void setGanador(String ganador) {
